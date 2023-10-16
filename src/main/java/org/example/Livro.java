@@ -1,5 +1,6 @@
 package org.example;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Livro {
@@ -11,19 +12,19 @@ public class Livro {
     private int limiteDiasEmprestimo;
 
     //Construtor
-
-
-    public Livro(String titulo, String autor, String isbn, boolean emprestado, LocalDateTime dataEmprestimo, int limiteDiasEmprestimo) {
+    public Livro(String titulo, String autor, String isbn, int limiteDiasEmprestimo) {
         this.titulo = titulo;
         this.autor = autor;
         this.isbn = isbn;
         this.emprestado = false;
-        this.dataEmprestimo = dataEmprestimo;
+        this.dataEmprestimo = null;  //Inicialmente não emprestado
         this.limiteDiasEmprestimo = limiteDiasEmprestimo;
     }
+
+
     // Método para reservar o livro
     public boolean reservar() {
-        if (!emprestado) {
+        if (emprestado) {
             emprestado = true;
             this.dataEmprestimo = LocalDateTime.now();
             return true; // Reserva bem-sucedida
@@ -48,9 +49,32 @@ public class Livro {
             LocalDateTime dataAtual = LocalDateTime.now();
             LocalDateTime limiteDataDevolucao = this.dataEmprestimo.plusDays(this.limiteDiasEmprestimo);
 
-            return dataAtual.isAfter(limiteDataDevolucao); // Verifica se há atraso na devolução
+            if (dataAtual.isAfter(limiteDataDevolucao)) {
+                long diasAtraso = Duration.between(limiteDataDevolucao, dataAtual).toDays();
+                System.out.println("Atraso na devolução de " + diasAtraso + " dias.");
+                return true;
+            }
         }
-        return false; // O livro não está emprestado
+        return false;
     }
 
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public void devolver() {
+        emprestado = false;
+        this.dataEmprestimo = null; //  Reiniciar a data de emprestimo ao devolver
+    }
+
+    public String exibirInfo() {
+        String statusEmprestado = emprestado ? "Emprestado" : "Disponível";
+        String info = "Título: " + titulo + "\nAutor: " + autor + "\nISBN: " + isbn + "\nStatus: " + statusEmprestado;
+        if (emprestado){
+            info += "\ndata de Emprestimo: " + this.dataEmprestimo;
+
+        }
+        return info;
+
+    }
 }
