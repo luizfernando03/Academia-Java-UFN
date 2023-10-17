@@ -67,6 +67,10 @@ public class Livro {
         this.dataEmprestimo = null; //  Reiniciar a data de emprestimo ao devolver
     }
 
+    public String toString() {
+        return "Título: " + titulo + ", ISBN: " + isbn + ", Emprestado: " + (emprestado ? "Sim" : "Não");
+    }
+
     public String exibirInfo() {
         String statusEmprestado = emprestado ? "Emprestado" : "Disponível";
         String info = "Título: " + titulo + "\nAutor: " + autor + "\nISBN: " + isbn + "\nStatus: " + statusEmprestado;

@@ -21,6 +21,9 @@ public class Main {
         biblioteca.emprestarLivro("002");
         biblioteca.devolverLivro("003");
 
+        // Solicitar um livro ao usuário
+        biblioteca.solicitarLivro();
+
         // Listando todos os livros
         System.out.println("Todos os livros na biblioteca:");
         List<Livro> todosLivros = biblioteca.listarLivros();

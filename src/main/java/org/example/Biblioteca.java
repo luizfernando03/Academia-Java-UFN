@@ -2,6 +2,7 @@ package org.example;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Biblioteca {
 
@@ -71,6 +72,33 @@ public class Biblioteca {
 
         }
         return livrosEmprestados;
+    }
+    public Livro obterLivroPorISBN(String isbn) {
+        for (Livro livro : catalogo) {
+            if (livro.getIsbn().equals(isbn)) {
+                return livro;
+            }
+        }
+        return null;
+    }
+
+    public void solicitarLivro() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Digite o ISBN do livro que deseja emprestar: ");
+        String isbn = scanner.nextLine();
+
+        Livro livro = obterLivroPorISBN(isbn);
+        if (livro != null) {
+            if (emprestarLivro(isbn)) {
+                System.out.println("Livro solicitado com sucesso: " + livro.getTitulo());
+            } else {
+                System.out.println("O livro com ISBN " + isbn + " não está disponível para empréstimo.");
+            }
+        } else {
+            System.out.println("Livro com ISBN " + isbn + " não encontrado na biblioteca.");
+        }
+
+
     }
 
 }
